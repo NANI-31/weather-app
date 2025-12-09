@@ -38,6 +38,8 @@ export const useWeather = () => {
             err instanceof Error ? err.message : "Failed to fetch weather data"
           )
         );
+      } finally {
+        dispatch(setLoading(false));
       }
     },
     [dispatch]
@@ -55,6 +57,8 @@ export const useWeather = () => {
             err instanceof Error ? err.message : "Failed to fetch weather data"
           )
         );
+      } finally {
+        dispatch(setLoading(false));
       }
     },
     [dispatch]
@@ -87,6 +91,7 @@ export const useWeather = () => {
         );
       } finally {
         dispatch(clearSearchResults());
+        dispatch(setLoading(false));
       }
     },
     [dispatch]

@@ -150,6 +150,16 @@ export async function getWeatherByCoords(
     // }),
   ]);
 
+  // Validate responses
+  if (weatherRes.status !== 200 || !weatherRes.data || !weatherRes.data.sys) {
+    throw new Error(
+      weatherRes.data?.message || "Failed to fetch current weather"
+    );
+  }
+  if (forecastRes.status !== 200 || !forecastRes.data) {
+    throw new Error(forecastRes.data?.message || "Failed to fetch forecast");
+  }
+
   const weatherData = weatherRes.data;
   const forecastData = forecastRes.data;
   const airData = airRes.data;
@@ -211,6 +221,13 @@ export async function getCurrentWeather(city: string): Promise<WeatherData> {
   const { data } = await api.get("/weather", {
     params: { q: city, appid: API_KEY, units: "metric" },
   });
+
+  if (data.cod && data.cod !== 200 && data.cod !== "200") {
+    throw new Error(data.message || "Failed to fetch weather");
+  }
+  if (!data.sys || !data.main) {
+    throw new Error("Invalid weather data received");
+  }
 
   return {
     city: data.name,
