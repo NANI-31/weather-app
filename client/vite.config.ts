@@ -6,7 +6,6 @@ import path from "path";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [tailwindcss(), react()],
-  base: "/weather-app",
   resolve: {
     alias: {
       "@api": path.resolve(__dirname, "src/api"),
