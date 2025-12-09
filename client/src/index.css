@@ -1,0 +1,454 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-outfit: Outfit, sans-serif;
+  --font-space-grotesk: "Space Grotesk", sans-serif;
+
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --color-weather-sunny: hsl(var(--weather-sunny));
+  --color-weather-rainy: hsl(var(--weather-rainy));
+  --color-weather-cloudy: hsl(var(--weather-cloudy));
+  --color-weather-snowy: hsl(var(--weather-snowy));
+  --color-weather-night: hsl(var(--weather-night));
+
+  --color-gradient-start: hsl(var(--gradient-start));
+  --color-gradient-mid: hsl(var(--gradient-mid));
+  --color-gradient-end: hsl(var(--gradient-end));
+
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+
+  --color-glow-primary: hsl(var(--glow-primary));
+  --color-glow-secondary: hsl(var(--glow-secondary));
+
+  --breakpoint-xs: 25rem;
+  --breakpoint-xxs: 21rem;
+}
+
+@layer base {
+  :root {
+    /* Sunny Theme (Default) */
+    --background: 79 0% 92.6%;
+    --background-inverted: 79 0% 92.6%;
+    --foreground: 20 30% 15%;
+
+    --card: 40 80% 97%;
+    --card-foreground: 20 30% 15%;
+
+    --popover: 40 80% 97%;
+    --popover-foreground: 20 30% 15%;
+
+    --primary: 25 95% 53%;
+    --primary-foreground: 0 0% 10%;
+
+    --secondary: 45 100% 60%;
+    --secondary-foreground: 20 30% 15%;
+
+    --muted: 0 0% 90%;
+    --muted-foreground: 0 0% 45%;
+
+    --accent: 15 90% 55%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 100%;
+    --input: 35 40% 85%;
+    --ring: 25 95% 53%;
+
+    --radius: 1rem;
+
+    /* Weather Theme Colors */
+    --weather-sunny: 45 100% 55%;
+    --weather-rainy: 210 70% 50%;
+    --weather-cloudy: 220 15% 60%;
+    --weather-snowy: 200 30% 85%;
+    --weather-night: 230 30% 20%;
+
+    /* Gradient Colors */
+    --gradient-start: 25 95% 53%;
+    --gradient-mid: 35 100% 55%;
+    --gradient-end: 45 100% 60%;
+
+    /* Chart Colors */
+    --chart-1: 25 95% 53%;
+    --chart-2: 35 100% 55%;
+    --chart-3: 45 100% 60%;
+    --chart-4: 15 90% 55%;
+    --chart-5: 0 80% 60%;
+
+    /* Glow Effects */
+    --glow-primary: 25 95% 53%;
+    --glow-secondary: 45 100% 60%;
+  }
+
+  .dark {
+    --background: 0 0% 8.7%;
+    --background-inverted: 0 0% 97.7%;
+
+    --foreground: 35 30% 95%;
+
+    --card: 0 0% 15%;
+    --card-foreground: 35 30% 95%;
+
+    --popover: 20 25% 12%;
+    --popover-foreground: 35 30% 95%;
+
+    --primary: 25 95% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 45 90% 50%;
+    --secondary-foreground: 20 30% 10%;
+
+    --muted: 0 0% 18%;
+    --muted-foreground: 0 0% 60%;
+
+    --accent: 15 90% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 20 20% 20%;
+    --input: 0 0% 20%;
+    --ring: 25 95% 55%;
+
+    --gradient-start: 25 95% 45%;
+    --gradient-mid: 35 90% 45%;
+    --gradient-end: 45 85% 45%;
+  }
+
+  /* Weather Themes */
+  .theme-sunny {
+    --primary: 45 100% 50%;
+    --gradient-start: 35 100% 55%;
+    --gradient-mid: 45 100% 60%;
+    --gradient-end: 50 100% 65%;
+  }
+
+  .theme-rainy {
+    --primary: 210 70% 50%;
+    --gradient-start: 200 60% 45%;
+    --gradient-mid: 210 70% 50%;
+    --gradient-end: 220 65% 55%;
+  }
+
+  .theme-cloudy {
+    --primary: 220 20% 55%;
+    --gradient-start: 210 15% 50%;
+    --gradient-mid: 220 20% 55%;
+    --gradient-end: 230 18% 60%;
+  }
+
+  .theme-snowy {
+    --primary: 200 50% 70%;
+    --gradient-start: 195 40% 75%;
+    --gradient-mid: 200 50% 80%;
+    --gradient-end: 210 45% 85%;
+  }
+  .theme-night {
+    --primary: 250 50% 50%;
+    --gradient-start: 240 40% 25%;
+    --gradient-mid: 250 50% 30%;
+    --gradient-end: 260 45% 35%;
+  }
+
+  /* Custom Theme Presets */
+  .theme-crimson {
+    --primary: 0 85% 50%;
+    --secondary: 15 90% 55%;
+    --accent: 350 80% 45%;
+    --gradient-start: 0 85% 50%;
+    --gradient-mid: 10 90% 55%;
+    --gradient-end: 20 85% 60%;
+  }
+
+  .theme-ocean {
+    --primary: 195 85% 45%;
+    --secondary: 180 70% 50%;
+    --accent: 210 80% 55%;
+    --gradient-start: 180 70% 45%;
+    --gradient-mid: 195 85% 50%;
+    --gradient-end: 210 80% 55%;
+  }
+
+  .theme-forest {
+    --primary: 140 60% 40%;
+    --secondary: 160 50% 45%;
+    --accent: 120 55% 35%;
+    --gradient-start: 120 55% 35%;
+    --gradient-mid: 140 60% 40%;
+    --gradient-end: 160 50% 45%;
+  }
+
+  .theme-sunset {
+    --primary: 25 95% 53%;
+    --secondary: 45 100% 60%;
+    --accent: 15 90% 55%;
+    --gradient-start: 15 90% 50%;
+    --gradient-mid: 25 95% 55%;
+    --gradient-end: 45 100% 60%;
+  }
+
+  .theme-aurora {
+    --primary: 280 70% 55%;
+    --secondary: 320 65% 50%;
+    --accent: 260 75% 60%;
+    --gradient-start: 260 75% 50%;
+    --gradient-mid: 280 70% 55%;
+    --gradient-end: 320 65% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-gray-200;
+  }
+
+  body {
+    @apply bg-background text-foreground font-outfit antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-space-grotesk;
+  }
+
+  /* Custom Scrollbar Class */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    /* background: transparent; */
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-primary rounded-full transition-colors duration-300;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary/50;
+  }
+
+  /* Hide global scrollbar but keep functionality if needed, though we prefer hidden for this layout */
+  body {
+    overflow: hidden; /* Prevent body scroll, force layout scroll */
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-card/80 backdrop-blur-xl rounded-2xl shadow-xl;
+  }
+
+  .glass-panel {
+    @apply bg-card/60 backdrop-blur-lg border border-gray-200/30 rounded-xl;
+  }
+
+  .weather-gradient {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--gradient-start)) 0%,
+      hsl(var(--gradient-mid)) 50%,
+      hsl(var(--gradient-end)) 100%
+    );
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background: linear-gradient(
+      135deg,
+      hsl(var(--gradient-start)) 0%,
+      hsl(var(--gradient-end)) 100%
+    );
+  }
+
+  .glow-effect {
+    box-shadow: 0 0 20px hsl(var(--glow-primary) / 0.3),
+      0 0 40px hsl(var(--glow-secondary) / 0.2);
+  }
+
+  .weather-icon-glow {
+    filter: drop-shadow(0 0 10px hsl(var(--primary) / 0.5));
+  }
+
+  .stat-card {
+    @apply bg-card/60 backdrop-blur-lg border border-gray-200/30 rounded-xl p-4 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg;
+  }
+
+  .nav-link {
+    @apply relative px-4 py-2 rounded-xl transition-all duration-300;
+  }
+
+  .nav-link.active {
+    @apply bg-primary/10 text-primary;
+  }
+
+  .nav-link::after {
+    content: "";
+    @apply absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary rounded-full transition-all duration-300;
+  }
+
+  .nav-link:hover::after {
+    @apply w-1/2;
+  }
+
+  .weather-particle {
+    @apply absolute rounded-full opacity-60;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .chart-container {
+    @apply bg-card/50 backdrop-blur-sm rounded-2xl p-4 border border-gray-200/30;
+  }
+}
+
+@layer utilities {
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-pulse-slow {
+    animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .animate-spin-slow {
+    animation: spin 20s linear infinite;
+  }
+
+  .animate-bounce-subtle {
+    animation: bounce-subtle 2s ease-in-out infinite;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes bounce-subtle {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes rain {
+  0% {
+    transform: translateY(-100vh);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+@keyframes snow {
+  0% {
+    transform: translateY(-100vh) rotate(0deg);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.rain-drop {
+  animation: rain 1.5s linear infinite;
+}
+
+.snow-flake {
+  animation: snow 8s linear infinite;
+}
