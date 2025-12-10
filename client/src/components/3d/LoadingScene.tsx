@@ -1,4 +1,4 @@
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import {
   Float,
@@ -158,6 +158,21 @@ const LoadingScreen = ({
   progress = 0,
   isEmbedded = false,
 }: LoadingScreenProps) => {
+  // Determine if this is a refresh or initial visit
+  // We use a lazy initializer to check storage once on mount
+  const [isRefresh] = useState(() => {
+    // If embedded, we don't care about session logic, but hook must run
+    if (isEmbedded) return false;
+
+    const hasVisited = sessionStorage.getItem("has_visited");
+    if (hasVisited) {
+      return true;
+    } else {
+      sessionStorage.setItem("has_visited", "true");
+      return false;
+    }
+  });
+
   if (isEmbedded) {
     return (
       <div className="absolute inset-0 z-0 flex flex-col items-center justify-center bg-linear-to-br from-orange-500 via-red-500 to-yellow-500 overflow-hidden">
@@ -198,10 +213,23 @@ const LoadingScreen = ({
 
         {/* Loading Text */}
         <p className="text-white/80 text-sm font-medium tracking-wider animate-pulse">
-          {progress < 30 && "Fetching weather data..."}
-          {progress >= 30 && progress < 60 && "Analyzing atmosphere..."}
-          {progress >= 60 && progress < 90 && "Preparing your forecast..."}
-          {progress >= 90 && "Almost ready..."}
+          {!isRefresh ? (
+            <>
+              {progress < 30 && "Fetching weather data..."}
+              {progress >= 30 && progress < 60 && "Analyzing atmosphere..."}
+              {progress >= 60 && progress < 90 && "Preparing your forecast..."}
+              {progress >= 90 && "Almost ready..."}
+            </>
+          ) : (
+            <>
+              {progress < 30 && "Updating latest conditions..."}
+              {progress >= 30 &&
+                progress < 60 &&
+                "Syncing weather satellites..."}
+              {progress >= 60 && progress < 90 && "Refreshing forecast..."}
+              {progress >= 90 && "Back to the weather..."}
+            </>
+          )}
         </p>
       </div>
 

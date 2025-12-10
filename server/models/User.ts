@@ -16,7 +16,7 @@ export interface IUser extends Document {
 const userSchema: Schema = new Schema({
   username: {
     type: String,
-    // required: true, // Not required for google auth initially if we just use name
+    required: true, // Not required for google auth initially if we just use name
     unique: false, // Changed from unique true if we allow multiple users with same name (or handle username gen)
     trim: true,
   },

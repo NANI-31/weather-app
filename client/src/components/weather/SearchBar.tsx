@@ -92,7 +92,7 @@ export const SearchBar = () => {
         <button
           onClick={handleUseLocation}
           disabled={isLocating}
-          className="inline-flex items-center justify-center h-12 w-12 rounded-2xl border border-primary/50 bg-card/80 
+          className="inline-flex btn overflow-hidden items-center justify-center h-12 w-12 rounded-2xl border border-primary/50 bg-card/80 
           backdrop-blur-sm transition-colors hover:bg-primary hover:text-primary-foreground"
         >
           {isLocating ? (

@@ -3,18 +3,18 @@ dotenv.config();
 
 import express, { Application, Request, Response } from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import connectDB from "./config/db";
 import authRoutes from "./routes/authRoutes";
 import userRoutes from "./routes/userRoutes";
 import weatherRoutes from "./routes/weatherRoutes";
+import { errorHandler } from "./middleware/errorMiddleware";
 
 const app: Application = express();
 const PORT = process.env.PORT || 5000;
 
 // Connect to Database
 connectDB();
-
-import cookieParser from "cookie-parser";
 
 // Middleware
 app.use(
@@ -28,8 +28,6 @@ app.use(
 );
 app.use(express.json());
 app.use(cookieParser());
-
-import { errorHandler } from "./middleware/errorMiddleware";
 
 // Routes
 app.use("/api/auth", authRoutes);

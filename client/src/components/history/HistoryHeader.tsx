@@ -31,11 +31,11 @@ const HistoryHeader = ({ timeRange, setTimeRange }: Props) => {
       <div className="flex gap-2">
         <button
           onClick={() => setTimeRange("week")}
-          className={`inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium
-                      ring-offset-background transition-colors flex-1 rounded-xl h-10 px-4 py-2
+          className={`relative overflow-hidden inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium
+                      flex-1 rounded-xl h-10 px-4 py-2
                     ${
                       timeRange === "week"
-                        ? "bg-primary text-white hover:bg-primary/90"
+                        ? "btn text-white hover:bg-primary/90"
                         : "border border-input bg-background hover:bg-accent hover:text-accent-foreground"
                     }`}
         >
@@ -45,11 +45,11 @@ const HistoryHeader = ({ timeRange, setTimeRange }: Props) => {
 
         <button
           onClick={() => setTimeRange("month")}
-          className={`inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium
-                      ring-offset-background transition-colors flex-1 rounded-xl h-10 px-4 py-2
+          className={`relative overflow-hidden inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium
+                      flex-1 rounded-xl h-10 px-4 py-2
                     ${
                       timeRange === "month"
-                        ? "bg-primary text-white hover:bg-primary/90"
+                        ? "btn text-white hover:bg-primary/90"
                         : "border border-input bg-background hover:bg-accent hover:text-accent-foreground"
                     }`}
         >

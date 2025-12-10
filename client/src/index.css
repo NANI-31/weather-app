@@ -287,6 +287,26 @@
 }
 
 @layer components {
+  .btn::before {
+    content: "";
+    position: absolute;
+    height: 300px;
+    width: 100%;
+    background: linear-gradient(
+      #252525,
+      hsl(var(--primary)),
+      #252525,
+      hsl(var(--primary))
+    );
+    top: -150%;
+    left: 0;
+    z-index: -1;
+    transform: translateY(-30px);
+    -webkit-transform: translateY(-30px);
+    -moz-transform: translateY(-30px);
+    -ms-transform: translateY(-30px);
+    -o-transform: translateY(-30px);
+  }
   .glass-card {
     @apply bg-card/80 backdrop-blur-xl rounded-2xl shadow-xl;
   }

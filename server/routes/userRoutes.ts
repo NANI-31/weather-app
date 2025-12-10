@@ -7,11 +7,11 @@ import {
   deleteAllFavorites,
   deleteAccount,
   changePassword,
-  uploadProfilePicture, // Added import
+  uploadProfilePicture,
 } from "../controllers/userController";
 
 import { protect } from "../middleware/authMiddleware";
-import upload from "../middleware/upload"; // Added import
+import upload from "../middleware/upload";
 
 const router: Router = express.Router();
 

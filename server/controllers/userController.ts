@@ -5,6 +5,9 @@ import cloudinary from "../config/cloudinary";
 import streamifier from "streamifier";
 import { AuthRequest } from "../middleware/authMiddleware";
 
+// @desc    Upload profile picture
+// @route   POST /api/users/profile-picture
+// @access  Private
 export const uploadProfilePicture = async (
   req: Request,
   res: Response
@@ -73,6 +76,9 @@ export const uploadProfilePicture = async (
   }
 };
 
+// @desc    Add favorite city
+// @route   POST /api/users/favorites
+// @access  Private
 export const addFavorite = async (req: AuthRequest, res: Response) => {
   const { city } = req.body;
   const userId = req.user?.id;
@@ -95,6 +101,9 @@ export const addFavorite = async (req: AuthRequest, res: Response) => {
   }
 };
 
+// @desc    Remove favorite city
+// @route   DELETE /api/users/favorites
+// @access  Private
 export const removeFavorite = async (req: AuthRequest, res: Response) => {
   const { city } = req.body;
   const userId = req.user?.id;
@@ -115,6 +124,9 @@ export const removeFavorite = async (req: AuthRequest, res: Response) => {
   }
 };
 
+// @desc    Get user's favorite cities
+// @route   GET /api/users/favorites
+// @access  Private
 export const getFavorites = async (req: AuthRequest, res: Response) => {
   const userId = req.user?.id;
 
@@ -132,6 +144,9 @@ export const getFavorites = async (req: AuthRequest, res: Response) => {
   }
 };
 
+// @desc    Update user profile
+// @route   PUT /api/users/profile
+// @access  Private
 export const updateUserProfile = async (req: AuthRequest, res: Response) => {
   const userId = req.user?.id;
   const { name, email } = req.body;
@@ -165,6 +180,9 @@ export const updateUserProfile = async (req: AuthRequest, res: Response) => {
   }
 };
 
+// @desc    Delete all favorite cities
+// @route   DELETE /api/users/favorites/all
+// @access  Private
 export const deleteAllFavorites = async (req: AuthRequest, res: Response) => {
   const userId = req.user?.id;
 
@@ -183,6 +201,9 @@ export const deleteAllFavorites = async (req: AuthRequest, res: Response) => {
   }
 };
 
+// @desc    Delete user account
+// @route   DELETE /api/users/profile
+// @access  Private
 export const deleteAccount = async (req: AuthRequest, res: Response) => {
   console.log("deleteAccount controller hit");
   const userId = req.user?.id;
@@ -242,6 +263,9 @@ export const deleteAccount = async (req: AuthRequest, res: Response) => {
   }
 };
 
+// @desc    Change user password
+// @route   PUT /api/users/password
+// @access  Private
 export const changePassword = async (req: AuthRequest, res: Response) => {
   const { currentPassword, newPassword } = req.body;
   const userId = req.user?.id;

@@ -1,14 +1,9 @@
 import axios from "axios";
 // import { type CredentialResponse } from "@react-oauth/google";
 
+import { API_BASE_URL } from "./config";
+
 // Use relative path for proxy to handle (works on mobile/network)
-// Use relative path for proxy to handle (works on mobile/network)
-const BASE_URL =
-  import.meta.env.VITE_BASE_URL ||
-  (import.meta.env.DEV
-    ? "http://localhost:5000"
-    : "https://weather-app-server-3dt5.onrender.com");
-const API_BASE_URL = `${BASE_URL}/api`;
 
 const authApi = axios.create({
   baseURL: API_BASE_URL,

@@ -35,10 +35,10 @@ const Settings = () => {
             key={t.key}
             onClick={() => setTab(t.key)}
             className={`
-              flex-1 p-2 rounded-full cursor-pointer transition-all
+              flex-1 p-2 rounded-full relative cursor-pointer transition-all
               ${
                 tab === t.key
-                  ? "bg-primary text-white"
+                  ? "btn overflow-hidden text-white"
                   : "border border-primary/20 bg-primary/10"
               }
             `}

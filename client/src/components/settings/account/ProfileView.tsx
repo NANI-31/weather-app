@@ -3,14 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { type RootState } from "@app/store";
 import { logout, updateUserImage } from "@features/settings/settingsSlice";
 import { clearFavoriteCities } from "@features/weather/weatherSlice";
-import {
-  User,
-  Camera,
-  MapPin,
-  Calendar,
-  LogOut,
-  ShieldCheck,
-} from "lucide-react";
+import { Camera, MapPin, Calendar, LogOut, ShieldCheck } from "lucide-react";
 import { toast } from "react-toastify";
 import { logoutUser, uploadProfilePicture } from "@api/authAPI";
 import { motion } from "framer-motion";
@@ -102,9 +95,11 @@ export default function ProfileView() {
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  <div className="w-full h-full bg-linear-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
-                    <User className="w-16 h-16 text-primary/60" />
-                  </div>
+                  <img
+                    src="/default-avatar.png"
+                    alt="Default Profile"
+                    className="w-full h-full object-cover"
+                  />
                 )}
 
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 rounded-full transition-opacity flex flex-col items-center justify-center backdrop-blur-[2px]">

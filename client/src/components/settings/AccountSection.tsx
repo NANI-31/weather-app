@@ -12,9 +12,9 @@ export default function AccountSettings() {
   }
 
   return (
-    <div className="glass-card flex min-h-[500px]">
+    <div className="glass-card flex min-h-[600px]">
       {/* Left Side (Loading Scene) */}
-      <div className="flex-2 border-r border-white/10 max-sm:hidden relative">
+      <div className="flex-[2] border-r border-white/10 max-sm:hidden relative">
         <div className="h-full w-full overflow-hidden rounded-l-2xl relative">
           <LoadingScene isEmbedded={true} />
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
@@ -26,7 +26,7 @@ export default function AccountSettings() {
       </div>
 
       {/* Right Side (Auth Forms) */}
-      <div className="flex-3">
+      <div className="flex-[3]">
         <AuthForms />
       </div>
     </div>

@@ -12,7 +12,7 @@ import {
   resetPassword,
 } from "@api/authAPI";
 import axios from "axios";
-import { User } from "lucide-react";
+import { User, Eye, EyeOff } from "lucide-react";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -22,18 +22,23 @@ export default function AuthForms() {
   // Login State
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
+  const [showLoginPassword, setShowLoginPassword] = useState(false);
 
   // Register State
   const [registerName, setRegisterName] = useState("");
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
+  const [showRegisterPassword, setShowRegisterPassword] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   // Forgot Password State
   const [forgotEmail, setForgotEmail] = useState("");
   const [resetOtp, setResetOtp] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [showNewPassword, setShowNewPassword] = useState(false);
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false);
 
   // Views: 'login' | 'register' | 'forgot-email' | 'verify-otp' | 'reset-password'
   const [authView, setAuthView] = useState<
@@ -221,7 +226,7 @@ export default function AuthForms() {
   };
 
   return (
-    <div className="flex flex-col p-8 md:pl-10 w-full justify-center">
+    <div className="flex flex-col p-8 md:pl-10 w-full h-full justify-center">
       {/* Header */}
       <div className="flex items-center gap-3 mb-6 self-start">
         <User className="w-5 h-5 text-primary" />
@@ -272,16 +277,29 @@ export default function AuthForms() {
               >
                 Password
               </label>
-              <input
-                id="login-password"
-                type="password"
-                value={loginPassword}
-                onChange={(e) => setLoginPassword(e.target.value)}
-                placeholder="Enter your password"
-                className="flex h-10 w-full border border-input bg-background/50 px-3 py-2 text-base
-                  placeholder:text-muted-foreground focus-visible:outline-2 outline-primary
-                  md:text-sm rounded-xl transition-all"
-              />
+              <div className="relative">
+                <input
+                  id="login-password"
+                  type={showLoginPassword ? "text" : "password"}
+                  value={loginPassword}
+                  onChange={(e) => setLoginPassword(e.target.value)}
+                  placeholder="Enter your password"
+                  className="flex h-10 w-full border border-input bg-background/50 px-3 py-2 text-base
+                    placeholder:text-muted-foreground focus-visible:outline-2 outline-primary
+                    md:text-sm rounded-xl transition-all pr-10"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowLoginPassword(!showLoginPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                >
+                  {showLoginPassword ? (
+                    <EyeOff className="w-4 h-4" />
+                  ) : (
+                    <Eye className="w-4 h-4" />
+                  )}
+                </button>
+              </div>
             </div>
             <div className="flex justify-end">
               <button
@@ -357,16 +375,29 @@ export default function AuthForms() {
               >
                 Password
               </label>
-              <input
-                id="reg-password"
-                type="password"
-                value={registerPassword}
-                onChange={(e) => setRegisterPassword(e.target.value)}
-                placeholder="Password"
-                className="flex h-10 w-full border border-input bg-background/50 px-3 py-2 text-base
-                  placeholder:text-muted-foreground focus-visible:outline-2 outline-primary
-                  md:text-sm rounded-xl transition-all"
-              />
+              <div className="relative">
+                <input
+                  id="reg-password"
+                  type={showRegisterPassword ? "text" : "password"}
+                  value={registerPassword}
+                  onChange={(e) => setRegisterPassword(e.target.value)}
+                  placeholder="Password"
+                  className="flex h-10 w-full border border-input bg-background/50 px-3 py-2 text-base
+                    placeholder:text-muted-foreground focus-visible:outline-2 outline-primary
+                    md:text-sm rounded-xl transition-all pr-10"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowRegisterPassword(!showRegisterPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                >
+                  {showRegisterPassword ? (
+                    <EyeOff className="w-4 h-4" />
+                  ) : (
+                    <Eye className="w-4 h-4" />
+                  )}
+                </button>
+              </div>
             </div>
             <div className="space-y-2 col-span-2 md:col-span-1">
               <label
@@ -375,16 +406,29 @@ export default function AuthForms() {
               >
                 Confirm Password
               </label>
-              <input
-                id="reg-confirm"
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="Confirm"
-                className="flex h-10 w-full border border-input bg-background/50 px-3 py-2 text-base
-                  placeholder:text-muted-foreground focus-visible:outline-2 outline-primary
-                  md:text-sm rounded-xl transition-all"
-              />
+              <div className="relative">
+                <input
+                  id="reg-confirm"
+                  type={showConfirmPassword ? "text" : "password"}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="Confirm"
+                  className="flex h-10 w-full border border-input bg-background/50 px-3 py-2 text-base
+                    placeholder:text-muted-foreground focus-visible:outline-2 outline-primary
+                    md:text-sm rounded-xl transition-all pr-10"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                >
+                  {showConfirmPassword ? (
+                    <EyeOff className="w-4 h-4" />
+                  ) : (
+                    <Eye className="w-4 h-4" />
+                  )}
+                </button>
+              </div>
             </div>
             <div className="col-span-2 pt-2">
               <button
@@ -498,17 +542,30 @@ export default function AuthForms() {
               >
                 New Password
               </label>
-              <input
-                id="new-pass"
-                type="password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                placeholder="Min 6 characters"
-                className="flex h-10 w-full border border-input bg-background/50 px-3 py-2 text-base 
-                  placeholder:text-muted-foreground 
-                  focus-visible:outline-2 outline-primary
-                  md:text-sm rounded-xl transition-all"
-              />
+              <div className="relative">
+                <input
+                  id="new-pass"
+                  type={showNewPassword ? "text" : "password"}
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  placeholder="Min 6 characters"
+                  className="flex h-10 w-full border border-input bg-background/50 px-3 py-2 text-base 
+                    placeholder:text-muted-foreground 
+                    focus-visible:outline-2 outline-primary
+                    md:text-sm rounded-xl transition-all pr-10"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowNewPassword(!showNewPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                >
+                  {showNewPassword ? (
+                    <EyeOff className="w-4 h-4" />
+                  ) : (
+                    <Eye className="w-4 h-4" />
+                  )}
+                </button>
+              </div>
             </div>
             <div className="space-y-2">
               <label
@@ -517,17 +574,32 @@ export default function AuthForms() {
               >
                 Confirm New Password
               </label>
-              <input
-                id="confirm-new-pass"
-                type="password"
-                value={confirmNewPassword}
-                onChange={(e) => setConfirmNewPassword(e.target.value)}
-                placeholder="Confirm password"
-                className="flex h-10 w-full border border-input bg-background/50 px-3 py-2 text-base 
-                  placeholder:text-muted-foreground 
-                  focus-visible:outline-2 outline-primary
-                  md:text-sm rounded-xl transition-all"
-              />
+              <div className="relative">
+                <input
+                  id="confirm-new-pass"
+                  type={showConfirmNewPassword ? "text" : "password"}
+                  value={confirmNewPassword}
+                  onChange={(e) => setConfirmNewPassword(e.target.value)}
+                  placeholder="Confirm password"
+                  className="flex h-10 w-full border border-input bg-background/50 px-3 py-2 text-base 
+                    placeholder:text-muted-foreground 
+                    focus-visible:outline-2 outline-primary
+                    md:text-sm rounded-xl transition-all pr-10"
+                />
+                <button
+                  type="button"
+                  onClick={() =>
+                    setShowConfirmNewPassword(!showConfirmNewPassword)
+                  }
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                >
+                  {showConfirmNewPassword ? (
+                    <EyeOff className="w-4 h-4" />
+                  ) : (
+                    <Eye className="w-4 h-4" />
+                  )}
+                </button>
+              </div>
             </div>
             <div className="flex justify-between items-center pt-2">
               <button
@@ -551,9 +623,9 @@ export default function AuthForms() {
 
         {(authView === "login" || authView === "register") && (
           <div className="pt-6 flex items-center gap-2 w-full justify-center">
-            <div className="h-px flex-1 bg-border"></div>
+            <div className="h-px flex-1 bg-foreground/20"></div>
             <div className="text-xs text-muted-foreground uppercase">or</div>
-            <div className="h-px flex-1 bg-border"></div>
+            <div className="h-px flex-1 bg-foreground/20"></div>
           </div>
         )}
 

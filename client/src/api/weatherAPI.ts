@@ -17,15 +17,11 @@ export interface WeatherBundle {
   uvIndex: number | null; // keep null or a fallback value
 }
 
-// NOTE: We now use our backend proxy.
-// Base URL from environment should point to our server (e.g. http://localhost:5000/api)
-// or relative if served from same origin.
-const BASE_URL =
-  import.meta.env.VITE_BASE_URL ||
-  "https://weather-app-server-3dt5.onrender.com";
+// NOTE: We now use our centralized config.
+import { API_BASE_URL } from "./config";
 
 const api = axios.create({
-  baseURL: `${BASE_URL}/api`,
+  baseURL: API_BASE_URL,
   withCredentials: true, // important if you want cookies later, but fine here
 });
 

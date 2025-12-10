@@ -7,7 +7,6 @@ import {
   forgotPassword,
   resetPassword,
 } from "../controllers/authController";
-import upload from "../middleware/upload";
 
 const router: Router = express.Router();
 

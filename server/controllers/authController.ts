@@ -6,6 +6,15 @@ import jwt from "jsonwebtoken";
 
 import bcrypt from "bcryptjs";
 import nodemailer from "nodemailer";
+import { google } from "googleapis";
+const oAuth2Client = new google.auth.OAuth2(
+  process.env.GOOGLE_CLIENT_ID,
+  process.env.GOOGLE_CLIENT_SECRET,
+  process.env.GOOGLE_REDIRECT_URI
+);
+oAuth2Client.setCredentials({
+  refresh_token: process.env.GOOGLE_REFRESH_TOKEN,
+});
 
 const generateToken = (res: Response, userId: string) => {
   if (!process.env.JWT_SECRET) {
@@ -223,7 +232,6 @@ const forgotPassword = async (req: Request, res: Response): Promise<void> => {
       res.status(404).json({ message: "User not found" });
       return;
     }
-
     // Generate 6 digit OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     const expiry = new Date(Date.now() + 10 * 60 * 1000); // 10 mins
@@ -231,9 +239,10 @@ const forgotPassword = async (req: Request, res: Response): Promise<void> => {
     user.resetPasswordOtp = otp;
     user.resetPasswordExpires = expiry;
     await user.save();
-
+    const accessToken = await oAuth2Client.getAccessToken();
     // Send Email
     // Use explicit host and port for better reliability on cloud platforms
+    console.log("passing user to email");
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -242,56 +251,57 @@ const forgotPassword = async (req: Request, res: Response): Promise<void> => {
         clientId: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
         refreshToken: process.env.GOOGLE_REFRESH_TOKEN,
+        accessToken: accessToken,
       },
-    });
+    } as any);
 
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: email,
       subject: "Reset Your Password - WeatherPro",
-      // html: `
-      //   <!DOCTYPE html>
-      //   <html>
-      //   <head>
-      //     <style>
-      //       body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f5; margin: 0; padding: 0; }
-      //       .container { max-width: 500px; margin: 40px auto; background-color: #ffffff; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); overflow: hidden; }
-      //       .header { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); padding: 30px; text-align: center; color: white; }
-      //       .header h1 { margin: 0; font-size: 24px; font-weight: 600; letter-spacing: 0.5px; }
-      //       .content { padding: 40px 30px; color: #334155; text-align: center; }
-      //       .otp-box { background-color: #eff6ff; border: 2px dashed #bfdbfe; border-radius: 8px; padding: 20px; margin: 25px 0; font-size: 32px; font-weight: 700; color: #1d4ed8; letter-spacing: 5px; font-family: 'Courier New', monospace; }
-      //       .text { font-size: 16px; line-height: 1.6; margin-bottom: 20px; }
-      //       .footer { background-color: #f8fafc; padding: 20px; text-align: center; font-size: 12px; color: #94a3b8; border-top: 1px solid #e2e8f0; }
-      //       .warning { font-size: 13px; color: #dc2626; margin-top: 20px; font-style: italic; }
-      //     </style>
-      //   </head>
-      //   <body>
-      //     <div class="container">
-      //       <div class="header">
-      //         <h1>WeatherPro</h1>
-      //       </div>
-      //       <div class="content">
-      //         <p class="text">Hello,</p>
-      //         <p class="text">We received a request to reset your password. Use the verification code below to proceed.</p>
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <style>
+            body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f5; margin: 0; padding: 0; }
+            .container { max-width: 500px; margin: 40px auto; background-color: #ffffff; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); overflow: hidden; }
+            .header { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); padding: 30px; text-align: center; color: white; }
+            .header h1 { margin: 0; font-size: 24px; font-weight: 600; letter-spacing: 0.5px; }
+            .content { padding: 40px 30px; color: #334155; text-align: center; }
+            .otp-box { background-color: #eff6ff; border: 2px dashed #bfdbfe; border-radius: 8px; padding: 20px; margin: 25px 0; font-size: 32px; font-weight: 700; color: #1d4ed8; letter-spacing: 5px; font-family: 'Courier New', monospace; }
+            .text { font-size: 16px; line-height: 1.6; margin-bottom: 20px; }
+            .footer { background-color: #f8fafc; padding: 20px; text-align: center; font-size: 12px; color: #94a3b8; border-top: 1px solid #e2e8f0; }
+            .warning { font-size: 13px; color: #dc2626; margin-top: 20px; font-style: italic; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>WeatherPro</h1>
+            </div>
+            <div class="content">
+              <p class="text">Hello,</p>
+              <p class="text">We received a request to reset your password. Use the verification code below to proceed.</p>
 
-      //         <div class="otp-box">${otp}</div>
+              <div class="otp-box">${otp}</div>
 
-      //         <p class="text">This code will expire in 10 minutes.</p>
+              <p class="text">This code will expire in 10 minutes.</p>
 
-      //         <p class="warning">If you didn't request this, please ignore this email. Your password will remain unchanged.</p>
-      //       </div>
-      //       <div class="footer">
-      //         &copy; ${new Date().getFullYear()} WeatherPro. All rights reserved.
-      //       </div>
-      //     </div>
-      //   </body>
-      //   </html>
-      // `,
-      text: `Your OTP code is: ${otp}`,
+              <p class="warning">If you didn't request this, please ignore this email. Your password will remain unchanged.</p>
+            </div>
+            <div class="footer">
+              &copy; ${new Date().getFullYear()} WeatherPro. All rights reserved.
+            </div>
+          </div>
+        </body>
+        </html>
+      `,
+      // text: `Your OTP code is: ${otp}`,
     };
 
     await transporter.sendMail(mailOptions);
-
+    console.log("OTP sent to email");
     res.status(200).json({ message: "OTP sent to email" });
   } catch (error) {
     console.error("Forgot Password Error:", error);

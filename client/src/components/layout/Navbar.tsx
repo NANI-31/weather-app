@@ -46,13 +46,13 @@ export const Navbar = () => {
                   className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-300 flex items-center gap-2 ${
                     isActive
                       ? "text-white"
-                      : "text-muted-foreground hover:text-foreground"
+                      : "text-muted-foreground  hover:text-foreground"
                   }`}
                 >
                   {isActive && (
                     <motion.div
                       layoutId="nav-pill"
-                      className="absolute inset-0 bg-primary rounded-lg shadow-sm"
+                      className="absolute inset-0 btn overflow-hidden rounded-lg"
                       transition={{
                         type: "spring",
                         stiffness: 300,
@@ -60,7 +60,7 @@ export const Navbar = () => {
                       }}
                     />
                   )}
-                  <span className="relative z-10 flex items-center gap-2">
+                  <span className="relative z-10 flex items-center gap-2 ">
                     <item.icon className="w-4 h-4" />
                     {item.label}
                   </span>
