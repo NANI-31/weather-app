@@ -110,3 +110,19 @@ export const changePassword = async (passwords: {
   const response = await authApi.put("/users/change-password", passwords);
   return response.data;
 };
+
+// Forgot Password
+export const forgotPassword = async (email: string) => {
+  const response = await authApi.post("/auth/forgot-password", { email });
+  return response.data;
+};
+
+// Reset Password
+export const resetPassword = async (data: {
+  email: string;
+  otp: string;
+  newPassword: string;
+}) => {
+  const response = await authApi.post("/auth/reset-password", data);
+  return response.data;
+};

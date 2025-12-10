@@ -4,7 +4,13 @@ import { login } from "@features/settings/settingsSlice";
 import { setFavoriteCities } from "@features/weather/weatherSlice";
 import { toast } from "react-toastify";
 import { GoogleLogin, type CredentialResponse } from "@react-oauth/google";
-import { loginUser, registerUser, googleAuth } from "@api/authAPI";
+import {
+  loginUser,
+  registerUser,
+  googleAuth,
+  forgotPassword,
+  resetPassword,
+} from "@api/authAPI";
 import axios from "axios";
 import { User } from "lucide-react";
 
@@ -29,12 +35,12 @@ export default function AuthForms() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
 
-  // Views: 'login' | 'register' | 'forgot-password' | 'verify-otp'
+  // Views: 'login' | 'register' | 'forgot-email' | 'verify-otp' | 'reset-password'
   const [authView, setAuthView] = useState<
-    "login" | "register" | "forgot-password" | "verify-otp"
+    "login" | "register" | "forgot-email" | "verify-otp" | "reset-password"
   >("login");
 
-  const isRegisterView = authView === "register";
+  // const isRegisterView = authView === "register";
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -129,9 +135,7 @@ export default function AuthForms() {
     }
 
     try {
-      await import("@api/authAPI").then((mod) =>
-        mod.forgotPassword(forgotEmail)
-      );
+      await forgotPassword(forgotEmail);
       toast.success("OTP sent to your email!");
       setAuthView("verify-otp");
     } catch (error) {
@@ -144,9 +148,16 @@ export default function AuthForms() {
     }
   };
 
+  const handleVerifyOtp = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!resetOtp) return toast.error("Please enter the OTP");
+    if (resetOtp.length !== 6) return toast.error("OTP must be 6 digits");
+    setAuthView("reset-password");
+  };
+
   const handleResetPassword = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!resetOtp || !newPassword || !confirmNewPassword) {
+    if (!newPassword || !confirmNewPassword) {
       return toast.error("Please fill in all fields");
     }
     if (newPassword !== confirmNewPassword) {
@@ -157,9 +168,11 @@ export default function AuthForms() {
     }
 
     try {
-      await import("@api/authAPI").then((mod) =>
-        mod.resetPassword({ email: forgotEmail, otp: resetOtp, newPassword })
-      );
+      await resetPassword({
+        email: forgotEmail,
+        otp: resetOtp,
+        newPassword,
+      });
       toast.success("Password reset successful! Please login.");
       setAuthView("login");
       setResetOtp("");
@@ -211,10 +224,12 @@ export default function AuthForms() {
         <p className="self-start text-lg pb-4 font-medium">
           {authView === "register"
             ? "Create an Account"
-            : authView === "forgot-password"
+            : authView === "forgot-email"
             ? "Reset Password"
             : authView === "verify-otp"
-            ? "Enter OTP"
+            ? "Verify OTP"
+            : authView === "reset-password"
+            ? "New Password"
             : "Nice to see you again"}
         </p>
 
@@ -261,11 +276,11 @@ export default function AuthForms() {
             <div className="flex justify-end">
               <button
                 type="button"
-                onClick={() => setAuthView("forgot-password")}
+                onClick={() => setAuthView("forgot-email")}
                 className="text-xs text-muted-foreground hover:text-primary transition-colors"
               >
                 Forgot Password?
-              </button>
+              </button>>
             </div>
             <button
               type="submit"
@@ -377,7 +392,7 @@ export default function AuthForms() {
         )}
 
         {/* Forgot Password - Step 1: Email */}
-        {authView === "forgot-password" && (
+        {authView === "forgot-email" && (
           <form onSubmit={handleForgotPassword} className="space-y-4 w-full">
             <div className="space-y-2">
               <label
@@ -398,6 +413,9 @@ export default function AuthForms() {
                   md:text-sm rounded-xl transition-all"
               />
             </div>
+            {/* Same height spacer as password field to maintain layout */}
+            <div className="h-[60px] w-full hidden"></div>
+            
             <div className="flex justify-between items-center pt-2">
               <button
                 type="button"
@@ -412,18 +430,18 @@ export default function AuthForms() {
                 ring-offset-background transition-colors h-10 px-4 py-2
                 rounded-xl bg-primary text-white hover:bg-primary/90 shadow-md"
               >
-                Send OTP
+                Get OTP
               </button>
             </div>
           </form>
         )}
 
-        {/* Forgot Password - Step 2: Verify OTP & New Password */}
+        {/* Forgot Password - Step 2: Verify OTP */}
         {authView === "verify-otp" && (
-          <form onSubmit={handleResetPassword} className="space-y-4 w-full">
+          <form onSubmit={handleVerifyOtp} className="space-y-4 w-full">
             <div className="space-y-2">
               <label htmlFor="otp" className="text-sm font-medium leading-none">
-                Enter OTP sent to email
+                Enter OTP sent to {forgotEmail}
               </label>
               <input
                 id="otp"
@@ -437,6 +455,32 @@ export default function AuthForms() {
                   md:text-sm rounded-xl transition-all"
               />
             </div>
+             {/* Same height spacer */}
+             <div className="h-[60px] w-full hidden"></div>
+
+            <div className="flex justify-between items-center pt-2">
+              <button
+                type="button"
+                onClick={() => setAuthView("forgot-email")}
+                className="text-sm text-muted-foreground hover:text-foreground"
+              >
+                Back
+              </button>
+              <button
+                type="submit"
+                className="whitespace-nowrap text-sm font-medium
+                ring-offset-background transition-colors h-10 px-4 py-2
+                rounded-xl bg-primary text-white hover:bg-primary/90 shadow-md"
+              >
+                Verify
+              </button>
+            </div>
+          </form>
+        )}
+
+        {/* Forgot Password - Step 3: New Password */}
+        {authView === "reset-password" && (
+          <form onSubmit={handleResetPassword} className="space-y-4 w-full">
             <div className="space-y-2">
               <label
                 htmlFor="new-pass"
@@ -478,7 +522,7 @@ export default function AuthForms() {
             <div className="flex justify-between items-center pt-2">
               <button
                 type="button"
-                onClick={() => setAuthView("forgot-password")}
+                onClick={() => setAuthView("verify-otp")}
                 className="text-sm text-muted-foreground hover:text-foreground"
               >
                 Back
@@ -489,7 +533,7 @@ export default function AuthForms() {
                 ring-offset-background transition-colors h-10 px-4 py-2
                 rounded-xl bg-primary text-white hover:bg-primary/90 shadow-md"
               >
-                Reset Password
+                Change Password
               </button>
             </div>
           </form>
