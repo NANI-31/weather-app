@@ -2,8 +2,8 @@ import { Request, Response } from "express";
 import axios from "axios";
 
 const API_KEY = process.env.WEATHER_API_KEY;
-const BASE_URL = "https://api.openweathermap.org/data/2.5";
-const GEO_URL = "http://api.openweathermap.org/geo/1.0";
+const BASE_URL = process.env.WEATHER_BASE_URL;
+const GEO_URL = process.env.WEATHER_GEO_URL;
 
 // @desc    Get current weather
 // @route   GET /api/weather/current

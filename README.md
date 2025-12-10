@@ -202,6 +202,11 @@ GOOGLE_CLIENT_SECRET=...
 GOOGLE_REFRESH_TOKEN=...
 GOOGLE_REDIRECT_URI=https://developers.google.com/oauthplayground
 
+# WeatherAPI
+WEATHER_API_KEY=...
+WEATHER_BASE_URL=https://api.openweathermap.org/data/2.5
+WEATHER_GEO_URL=http://api.openweathermap.org/geo/1.0
+
 # Cloudinary
 CLOUDINARY_CLOUD_NAME=...
 CLOUDINARY_API_KEY=...
@@ -211,9 +216,9 @@ CLOUDINARY_API_SECRET=...
 **Client (.env)**
 
 ```env
-VITE_OPENWEATHER_API_KEY=your_weather_api_key
 VITE_GOOGLE_CLIENT_ID=your_google_client_id
-VITE_SERVER_URL=http://localhost:5000 # Optional/Dev
+VITE_LOCAL_URL=http://localhost:5000 # Optional/Dev
+VITE_SERVER_URL=server_url
 ```
 
 ### Installation

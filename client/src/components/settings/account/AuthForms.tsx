@@ -12,7 +12,7 @@ import {
   resetPassword,
 } from "@api/authAPI";
 import axios from "axios";
-import { User, Eye, EyeOff } from "lucide-react";
+import { User, Eye, EyeOff, Loader2 } from "lucide-react";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -44,6 +44,8 @@ export default function AuthForms() {
   const [authView, setAuthView] = useState<
     "login" | "register" | "forgot-email" | "verify-otp" | "reset-password"
   >("login");
+
+  const [isOtpLoading, setIsOtpLoading] = useState(false);
 
   // const isRegisterView = authView === "register";
 
@@ -146,6 +148,7 @@ export default function AuthForms() {
     }
 
     try {
+      setIsOtpLoading(true);
       console.log("Calling forgotPassword API...");
       const response = await forgotPassword(forgotEmail);
       console.log("API Response:", response);
@@ -160,6 +163,8 @@ export default function AuthForms() {
       } else {
         toast.error("Failed to send OTP");
       }
+    } finally {
+      setIsOtpLoading(false);
     }
   };
 
@@ -480,11 +485,20 @@ export default function AuthForms() {
               </button>
               <button
                 type="submit"
+                disabled={isOtpLoading}
                 className="whitespace-nowrap text-sm font-medium
                 ring-offset-background transition-colors h-10 px-4 py-2
-                rounded-xl bg-primary text-white hover:bg-primary/90 shadow-md"
+                rounded-xl bg-primary text-white hover:bg-primary/90 shadow-md
+                disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
-                Get OTP
+                {isOtpLoading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  "Get OTP"
+                )}
               </button>
             </div>
           </form>
