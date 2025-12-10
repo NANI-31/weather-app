@@ -104,6 +104,7 @@ export const Navbar = () => {
                     <Link
                       key={item.path}
                       to={item.path}
+                      onClick={() => setIsOpen(false)}
                       className={`p-4 rounded-xl flex items-center gap-4 transition-all ${
                         isActive
                           ? "bg-primary text-white shadow-lg shadow-primary/20"
