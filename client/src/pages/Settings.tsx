@@ -7,13 +7,14 @@ import ColorThemeSection from "@components/settings/ColorThemeSection";
 import WeatherThemeSection from "@components/settings/WeatherThemeSection";
 import UnitPreferencesSection from "@components/settings/UnitPreferencesSection";
 
+const TABS = [
+  { key: "account", label: "Account" },
+  { key: "theme", label: "Theme" },
+  { key: "units", label: "Units" },
+] as const;
+
 const Settings = () => {
   const [tab, setTab] = useState<"account" | "theme" | "units">("account");
-  const tabs = [
-    { key: "account", label: "Account" },
-    { key: "theme", label: "Theme" },
-    { key: "units", label: "Units" },
-  ] as const;
   return (
     <div className="space-y-6 max-w-3xl mx-auto">
       {/* Header */}
@@ -29,7 +30,7 @@ const Settings = () => {
         </p>
       </motion.div>
       <div className="flex gap-4 text-center">
-        {tabs.map((t) => (
+        {TABS.map((t) => (
           <p
             key={t.key}
             onClick={() => setTab(t.key)}

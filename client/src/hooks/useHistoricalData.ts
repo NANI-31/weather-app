@@ -44,10 +44,7 @@ export const useHistoricalData = (timeRange: TimeRange) => {
       };
     });
 
-    const timer = setTimeout(() => {
-      setHistoricalData(newData);
-    }, 0);
-    return () => clearTimeout(timer);
+    setHistoricalData(newData);
   }, [timeRange, currentWeather]);
 
   const averages = useMemo(() => {

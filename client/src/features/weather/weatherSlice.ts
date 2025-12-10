@@ -82,7 +82,10 @@ const weatherSlice = createSlice({
       state.searchResults = [];
     },
     addFavoriteCity: (state, action: PayloadAction<string>) => {
-      if (!state.favoriteCities.includes(action.payload)) {
+      if (
+        !state.favoriteCities.includes(action.payload) &&
+        state.favoriteCities.length < 10
+      ) {
         state.favoriteCities.push(action.payload);
         localStorage.setItem(
           "favoriteCities",
