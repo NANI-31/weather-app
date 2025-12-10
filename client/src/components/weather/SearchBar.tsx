@@ -23,7 +23,7 @@ export const SearchBar = () => {
         clearSearch();
         setIsOpen(false);
       }
-    }, 300);
+    }, 150);
 
     return () => clearTimeout(debounce);
   }, [query, search, clearSearch]);
