@@ -8,6 +8,8 @@ import { loginUser, registerUser, googleAuth } from "@api/authAPI";
 import axios from "axios";
 import { User } from "lucide-react";
 
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export default function AuthForms() {
   const dispatch = useDispatch();
 
@@ -28,6 +30,10 @@ export default function AuthForms() {
     e.preventDefault();
     if (!loginEmail || !loginPassword)
       return toast.error("Please fill in all fields");
+
+    if (!emailRegex.test(loginEmail)) {
+      return toast.error("Please enter a valid email address");
+    }
 
     try {
       const data = await loginUser({
@@ -72,6 +78,14 @@ export default function AuthForms() {
     }
     if (registerPassword !== confirmPassword) {
       return toast.error("Passwords do not match");
+    }
+
+    if (!emailRegex.test(registerEmail)) {
+      return toast.error("Please enter a valid email address");
+    }
+
+    if (registerPassword.length < 6) {
+      return toast.error("Password must be at least 6 characters long");
     }
 
     try {
