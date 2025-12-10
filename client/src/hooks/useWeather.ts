@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useCallback } from "react";
+import { useCallback, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState, AppDispatch } from "@app/store";
 import type { WeatherState } from "@features/weather/types";
@@ -103,14 +103,26 @@ export const useWeather = () => {
     [dispatch]
   );
 
+  // Refs for stable callbacks
+  const weatherRef = useRef(weather);
+  const settingsRef = useRef(settings);
+
+  useEffect(() => {
+    weatherRef.current = weather;
+    settingsRef.current = settings;
+  }, [weather, settings]);
+
   const toggleFavorite = useCallback(
     async (city: string) => {
+      const currentFavorites = weatherRef.current.favoriteCities;
+      const isLoggedIn = settingsRef.current.isLoggedIn;
+
       // Optimistic update
-      if (weather.favoriteCities.includes(city)) {
+      if (currentFavorites.includes(city)) {
         dispatch(removeFavoriteCity(city));
 
         // Sync with server if logged in
-        if (settings.isLoggedIn) {
+        if (isLoggedIn) {
           try {
             await axios.post(
               "https://weather-app-server-3dt5.onrender.com/api/users/remove-favorite",
@@ -119,13 +131,13 @@ export const useWeather = () => {
             );
           } catch (error) {
             console.error("Failed to remove favorite from server:", error);
-            // Optionally revert state here if strict consistency is needed
+            // Revert state
             dispatch(addFavoriteCity(city));
           }
         }
       } else {
         dispatch(addFavoriteCity(city));
-        if (settings.isLoggedIn) {
+        if (isLoggedIn) {
           try {
             await axios.post(
               "https://weather-app-server-3dt5.onrender.com/api/users/add-favorite",
@@ -139,7 +151,7 @@ export const useWeather = () => {
         }
       }
     },
-    [dispatch, weather.favoriteCities, settings.isLoggedIn]
+    [dispatch]
   );
 
   const clearSearch = useCallback(() => {

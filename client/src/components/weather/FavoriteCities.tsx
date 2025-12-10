@@ -12,7 +12,7 @@ const FavoriteCityCardComponent = ({
   onSelect,
 }: {
   city: string;
-  onRemove: () => void;
+  onRemove: (city: string) => void;
   onSelect: (lat: number, lon: number) => void;
 }) => {
   const { convertTemp, tempUnit } = useWeather();
@@ -58,7 +58,7 @@ const FavoriteCityCardComponent = ({
       <button
         onClick={(e) => {
           e.stopPropagation();
-          onRemove();
+          onRemove(city);
         }}
         className="absolute top-2 right-2 p-1.5 rounded-full bg-black/20 text-muted-foreground hover:text-red-500 hover:bg-red-500/10 transition-all opacity-0 group-hover:opacity-100"
       >
@@ -115,7 +115,7 @@ export const FavoriteCities = () => {
               <FavoriteCityCard
                 key={city}
                 city={city}
-                onRemove={() => toggleFavorite(city)}
+                onRemove={toggleFavorite}
                 onSelect={fetchWeather}
               />
             ))}

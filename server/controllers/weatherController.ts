@@ -24,10 +24,18 @@ export const getCurrentWeather = async (req: Request, res: Response) => {
     });
 
     res.json(data);
-  } catch (error: any) {
-    res.status(error.response?.status || 500).json({
-      message: error.response?.data?.message || "Failed to fetch weather data",
-    });
+  } catch (error: unknown) {
+    let statusCode = 500;
+    let message = "Failed to fetch weather data";
+
+    if (axios.isAxiosError(error)) {
+      statusCode = error.response?.status || 500;
+      message = error.response?.data?.message || message;
+    } else if (error instanceof Error) {
+      message = error.message;
+    }
+
+    res.status(statusCode).json({ message });
   }
 };
 
@@ -48,10 +56,18 @@ export const getForecast = async (req: Request, res: Response) => {
     });
 
     res.json(data);
-  } catch (error: any) {
-    res.status(error.response?.status || 500).json({
-      message: error.response?.data?.message || "Failed to fetch forecast data",
-    });
+  } catch (error: unknown) {
+    let statusCode = 500;
+    let message = "Failed to fetch forecast data";
+
+    if (axios.isAxiosError(error)) {
+      statusCode = error.response?.status || 500;
+      message = error.response?.data?.message || message;
+    } else if (error instanceof Error) {
+      message = error.message;
+    }
+
+    res.status(statusCode).json({ message });
   }
 };
 
@@ -72,11 +88,18 @@ export const getAirPollution = async (req: Request, res: Response) => {
     });
 
     res.json(data);
-  } catch (error: any) {
-    res.status(error.response?.status || 500).json({
-      message:
-        error.response?.data?.message || "Failed to fetch air pollution data",
-    });
+  } catch (error: unknown) {
+    let statusCode = 500;
+    let message = "Failed to fetch air pollution data";
+
+    if (axios.isAxiosError(error)) {
+      statusCode = error.response?.status || 500;
+      message = error.response?.data?.message || message;
+    } else if (error instanceof Error) {
+      message = error.message;
+    }
+
+    res.status(statusCode).json({ message });
   }
 };
 
@@ -97,10 +120,17 @@ export const getDirectGeocoding = async (req: Request, res: Response) => {
     });
 
     res.json(data);
-  } catch (error: any) {
-    res.status(error.response?.status || 500).json({
-      message:
-        error.response?.data?.message || "Failed to fetch geocoding data",
-    });
+  } catch (error: unknown) {
+    let statusCode = 500;
+    let message = "Failed to fetch geocoding data";
+
+    if (axios.isAxiosError(error)) {
+      statusCode = error.response?.status || 500;
+      message = error.response?.data?.message || message;
+    } else if (error instanceof Error) {
+      message = error.message;
+    }
+
+    res.status(statusCode).json({ message });
   }
 };
