@@ -1,4 +1,4 @@
-import { useRef, useMemo, useEffect } from "react";
+import { useRef, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import {
   Float,
@@ -102,24 +102,24 @@ const RainDrops = () => {
 
 const WeatherScene3D = () => {
   // Optional: listen for WebGL context lost/restored
-  useEffect(() => {
-    const canvas = document.querySelector("canvas");
-    if (!canvas) return;
+  // useEffect(() => {
+  //   const canvas = document.querySelector("canvas");
+  //   if (!canvas) return;
 
-    const onLost = (e: Event) => {
-      e.preventDefault();
-      console.warn("WebGL context lost");
-    };
-    const onRestored = () => console.log("WebGL context restored");
+  //   const onLost = (e: Event) => {
+  //     e.preventDefault();
+  //     console.warn("WebGL context lost");
+  //   };
+  //   const onRestored = () => console.log("WebGL context restored");
 
-    canvas.addEventListener("webglcontextlost", onLost);
-    canvas.addEventListener("webglcontextrestored", onRestored);
+  //   canvas.addEventListener("webglcontextlost", onLost);
+  //   canvas.addEventListener("webglcontextrestored", onRestored);
 
-    return () => {
-      canvas.removeEventListener("webglcontextlost", onLost);
-      canvas.removeEventListener("webglcontextrestored", onRestored);
-    };
-  }, []);
+  //   return () => {
+  //     canvas.removeEventListener("webglcontextlost", onLost);
+  //     canvas.removeEventListener("webglcontextrestored", onRestored);
+  //   };
+  // }, []);
   return (
     <Canvas
       camera={{ position: [0, 0, 6], fov: 50 }}
