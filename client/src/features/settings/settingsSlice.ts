@@ -22,7 +22,7 @@ const savedSettings = loadSettings();
 const initialState: SettingsState = {
   temperatureUnit: savedSettings.temperatureUnit || "celsius",
   speedUnit: savedSettings.speedUnit || "kmh",
-  themeMode: savedSettings.themeMode || "light",
+  themeMode: savedSettings.themeMode || "dark",
   colorTheme: savedSettings.colorTheme || "sunset",
   weatherTheme: savedSettings.weatherTheme || "auto",
   isLoggedIn: savedSettings.isLoggedIn || false,
