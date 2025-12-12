@@ -123,3 +123,11 @@ export const resetPassword = async (data: {
   const response = await authApi.post("/auth/reset-password", data);
   return response.data;
 };
+
+export const pingServer = async (): Promise<void> => {
+  try {
+    await authApi.get("/auth/ping");
+  } catch {
+    // Silent fail - just intended to wake server
+  }
+};
